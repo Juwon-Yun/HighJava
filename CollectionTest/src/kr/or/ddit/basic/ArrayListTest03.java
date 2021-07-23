@@ -15,33 +15,32 @@ public class ArrayListTest03 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
-		List<String> strlist = new ArrayList<>();
-		System.out.println("5명의 별명을 입력하세요");
-		for (int i = 1; i <=  5; i++) {
-			System.out.println(i + "번째 별명: ");
-			String name = sc.next();
-			strlist.add(name);
+		List<String> aliasList = new ArrayList<>();
+
+		System.out.println("서로 다른 길이의 별명을 5번 입력하시오.");
+		for (int i = 1; i <= 5; i++) {
+			System.out.println(i + "번째 별명 : ");
+			String alias = sc.next();
+			aliasList.add(alias);
 		}
-		List<String> strlist2 = new ArrayList<>();
-		
-		for (int i = 0; i < strlist.size(); i++) {
-			System.out.println(i + "번째 별명의 길이: " + strlist.get(i).length());
-		for (int j = 0; j <= i; j++) {
-			if(strlist.get(i).length() > strlist.get(j).length()) {
-				strlist2.add(strlist.get(i));
-			}else if(strlist.get(i).length() == strlist.get(j).length()) {
-				System.out.println( i + "번째 별명과 " + j + "번째 별명 길이가 같습니다");
+
+		// 제일 긴 별명이 저장될 변수를 선언하고 이 변수에는 List의 첫번째 데이터로 초기화 한다.
+		//	String maxAlias = aliasList.get(0);
+		// 제일 긴 별명이 저장된 index값이 저장될 변수를 선언하고 0으로 초기화 한다.
+		int maxIndex = 0;
+
+		for (int i = 1; i < aliasList.size(); i++) {
+			//		if(maxAlias.length() < aliasList.get(i).length()){
+			//			maxAlias = aliasList.get(i);
+			//		}
+
+			if (aliasList.get(maxIndex).length() < aliasList.get(i).length()) {
+				maxIndex = i;
 			}
 		}
-	}
-		for (String show : strlist2) {
-			System.out.println(show);
-		}
-		
-	
-		
-		
+
+		//	System.out.println("제일 긴 별명 : " + maxAlias);
+		System.out.println("제일 긴 별명 : " + aliasList.get(maxIndex));
 		sc.close();
 	}
 
