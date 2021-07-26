@@ -24,7 +24,10 @@ import java.util.List;
 public class StudentTest {
 
 	public static void main(String[] args) {
-
+		//setRanking 메소드는 non static 메소드라서,
+		//인스턴스 메소드이니 StudnetTest 객체를 생성해야함
+		//	StudentTest set = new StudentTest();
+		
 		List<Student> stu = new ArrayList<>();
 
 		stu.add(new Student(1, "홍길동", 74, 89, 92));
@@ -35,7 +38,10 @@ public class StudentTest {
 		stu.add(new Student(3, "변학도", 74, 85, 92));
 		stu.add(new Student(6, "김철수", 34, 89, 92));
 		rank(stu);
-
+		
+		//등수를 구하는 메서드를 호출한다
+//		set.setRanking(stu);
+		
 		Collections.sort(stu);
 
 		System.out.println("학번을 오름차순으로 정렬한 후");
@@ -43,7 +49,7 @@ public class StudentTest {
 			System.out.println(student);
 		}
 
-		Collections.sort(stu, new scoreDesc());
+		Collections.sort(stu, new sumDesc());
 
 		System.out.println("총점을 내림차순을 정렬한 후");
 		for (Student student : stu) {
@@ -63,6 +69,22 @@ public class StudentTest {
 			}
 		}
 	}
+	
+//	public void setRanking(List<Student> stdList) {
+//		for (Student std1 : stdList) {	//기준이 되는 데이터 개수만큼 반복
+//			int rank = 1;	//등수가 저장될 변수(처음에는 1등으로 셋팅한다.)
+//			for (Student std2 : stdList) {	//비교 대상을 나타내는 반복문
+//				
+//				//기준보다 큰 값을 만나면 등수를 증가시킨다.
+//				if(std1.getSum() < std2.getSum()) {
+//					rank++;
+//				}
+//			}
+//			
+//			//구해진 등수를 Student 객체의 rank변수에 저장한다.
+//			std1.setRank(rank);
+//		}
+//	}
 }
 
 class Student implements Comparable<Student> {
@@ -155,7 +177,7 @@ class Student implements Comparable<Student> {
 
 }
 
-class scoreDesc implements Comparator<Student> {
+class sumDesc implements Comparator<Student> {
 	@Override
 	public int compare(Student stu1, Student stu2) {
 		if (stu1.getSum() > stu2.getSum()) {
