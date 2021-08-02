@@ -19,6 +19,7 @@ public class ThreadTest09_02 {
 		comRandom();
 
 		Thread th1 = new Thread(new RSPCountDown());
+		th1.setDaemon(true);
 		th1.start();
 		
 		showresult();
@@ -35,7 +36,7 @@ public class ThreadTest09_02 {
 		String paper = "보";
 		System.out.println("-------결  과--------     ");
  		System.out.println("컴퓨터 :  " + strcom);
- 		System.out.println("사용자 : "  + input);		
+ 		System.out.println("사용자 :  "  + input);		
  		if(input.equals(scissors) && strcom.equals("가위") || input.equals(paper) && strcom.equals("보") || input.equals(rock) && strcom.equals("바위")) {
  			System.out.println("서로 비겼습니다");
  		}else if(input.equals(scissors) && strcom.equals("바위") || input.equals(rock) && strcom.equals("보") || input.equals(paper) && strcom.equals("가위")) {
@@ -75,7 +76,7 @@ class RSPCountDown implements Runnable{
 	
 	@Override
 	public void run() {
-		for (int i = 10; i >=  1;  i--) {
+		for (int i = 5; i >=  1;  i--) {
 			System.out.println("입력 " + i + "초 남았습니다" );
 			
 			if(RSPInput.inputcheck == true) {
