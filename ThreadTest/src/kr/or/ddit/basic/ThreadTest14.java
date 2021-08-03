@@ -113,7 +113,7 @@ class Horse extends Thread implements Comparable<Horse>{
 					Thread.sleep(ran.nextInt(300));
 				} catch (InterruptedException e) {}
 		}
-
+		
 		System.out.println();
 		System.out.println(horseName +" 경주 종료" );
 		
