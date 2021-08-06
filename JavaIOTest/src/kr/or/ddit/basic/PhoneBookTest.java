@@ -3,6 +3,7 @@ package kr.or.ddit.basic;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -102,10 +103,10 @@ public class PhoneBookTest implements Serializable{
 		sc = new Scanner(System.in);
 	}
 	public static void main(String[] args) {
-		new PhoneBookTest().loadTelnum();
 		new PhoneBookTest().phoneBookStart();
 	}
 	private void phoneBookStart() {
+		loadTelnum();
 		System.out.println("==============================");
 		System.out.println("                        전화번호 정보 관리 프로그램");
 		System.out.println("==============================");
@@ -154,18 +155,22 @@ public class PhoneBookTest implements Serializable{
 	
 @SuppressWarnings("unchecked")
 private void loadTelnum(){
+	File file = new File("d:/d_other/phoneData.dat");
+	
+	if(!file.exists()) {
+		return;
+	}
+	
 	try {
-		FileInputStream fin = new FileInputStream("d:/d_other/phoneData.dat");
+		FileInputStream fin = new FileInputStream(file);
 		BufferedInputStream bin = new BufferedInputStream(fin);
 		ObjectInputStream ois = new ObjectInputStream(bin);
 		System.out.println("객체 읽기 작업 시작!!!");
 		
-		Object obj = null;
-		phoneBookMap = (HashMap<String, Phone>)obj;
+		phoneBookMap = (HashMap<String, Phone>)ois.readObject();
 		
-//		while( (obj = ois.readObject()) != null) {
-//			Phone phone = (Phone)obj;
-//			phoneBookMap.put(phone.getName(), phone);
+//		for(String n : phoneBookMap.keySet()) {
+//			System.out.println(phoneBookMap.get(n));
 //		}
 		
 		ois.close();
@@ -174,8 +179,8 @@ private void loadTelnum(){
 	} catch (IOException e) {
 		e.printStackTrace();
 		System.out.println("역직렬화 실패!!!");
-//	} catch (ClassNotFoundException e) {
-//		e.printStackTrace();
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
 	}finally {
 	}
 	
