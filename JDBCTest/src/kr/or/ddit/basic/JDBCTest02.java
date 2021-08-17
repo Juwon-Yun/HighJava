@@ -68,6 +68,7 @@ public class JDBCTest02 {
 			if(sc != null) sc.close();
 			if(rs != null) try {rs.close();} catch(SQLException e) {}
 			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+			if(pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 			if(conn != null) try {conn.close();} catch(SQLException e) {}
  		}
 	}

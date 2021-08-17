@@ -6,7 +6,25 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+/*
+String data = "";
 
+data = "aaaa' or ' 1'=1'"
+
+statement로 했을 때 보안문제 (모든 사용자가 나온다)
+String sql = "select * from member where mem_id = 'aaaa' or '1'='1'";
+
+PreparedStratement로 했을 때 보안에 취약한점을 보완할수있다.(속도도 빠름)
+String sql = "select * from member where mem_id = ? "
+pstmt.setString(1, data);
+
+--stmt
+select * from member where mem_id = 'aaaa' or '1'='1';
+
+--ptsmt
+select * from member where mem_id = 'aaaa'' or ''1''=''1';
+
+*/
 public class JDBCTest04 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
