@@ -45,16 +45,7 @@ public class JDBCTest06 {
 		DBUtil.getInstance();
 		new JDBCTest06().start();
 	}
-	private void menu() {
-		System.out.println("===================");
-	 	System.out.println("	-- 작업 선택 --");
-	 	System.out.println("	1. 자료 추가  ");
-		System.out.println("	2. 자료 삭제  ");
-		System.out.println("	3. 자료 수정  ");
-		System.out.println("	4. 전체 자료 출력");
-		System.out.println("	0. 작업 끝.   ");
-	 	System.out.println("===================");
-	}
+	
 	private int start() {
 		while(true) {
 		menu();
@@ -73,6 +64,9 @@ public class JDBCTest06 {
 		case 4:
 			readDate();
 			break;
+		case 5:	//선택 자료 수정
+			update2();
+			break;
 		case 0:
 			System.out.println("프로그램을 종료합니다");
 			System.exit(0);
@@ -82,6 +76,196 @@ public class JDBCTest06 {
 			}
 		}
 	}
+	
+	// 회원 정보를 수정하는 메소드 => 원하는 항목만 수정
+	private void update2() {
+		while(true) {
+		int choice = displayMenu2();
+			switch(choice) {
+				case 1:	// 비밀번호만 수정
+					onlyPass();
+					break;
+				case 2:	// 회원이름만 수정
+					onlyName();
+					break;
+				case 3:	// 전화번호만 수정
+					onlyTel();
+					break;
+				case 4:	// 회원주소만 수정
+					onlyAddr();
+					break;
+				case 0:
+					start();
+					break;
+				default : System.out.println("잘못된 번호 입력입니다. 다시입력하세요");
+			}
+		}
+	}
+
+	private void onlyAddr() {
+		sc.nextLine();
+		System.out.println();
+		System.out.print("수정할 회원아이디 >>");
+		String memId = sc.nextLine();
+		int count = getMemberCount(memId);
+		// 없는 회원
+		if ( count == 0 ) {
+			System.out.println(memId + "은(는) 없는 회원ID 입니다.");
+			System.out.println("수정 작업을 종료합니다.");
+			return;
+		}
+		System.out.println("수정할 내용을 입력하세요.");
+		System.out.print("새로운 회원주소 >>");
+		String newAddr = sc.nextLine();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "update mymember set  mem_addr = ? where mem_id = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newAddr);
+			pstmt.setString(2, memId);
+			
+			int cnt = pstmt.executeUpdate();
+			if( cnt  > 0) {
+				System.out.println(memId + " 회원의 회원주소 수정 성공");
+			}else {
+				System.out.println(memId + " 회원의 회원주소 수정 실패");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+			if(conn != null) try { conn.close(); } catch (SQLException e) {}
+		}
+	}
+
+	private void onlyTel() {
+		sc.nextLine();
+		System.out.println();
+		System.out.print("수정할 회원아이디 >>");
+		String memId = sc.nextLine();
+		int count = getMemberCount(memId);
+		// 없는 회원
+		if ( count == 0 ) {
+			System.out.println(memId + "은(는) 없는 회원ID 입니다.");
+			System.out.println("수정 작업을 종료합니다.");
+			return;
+		}
+		System.out.println("수정할 내용을 입력하세요.");
+		System.out.print("새로운 회원번호 >>");
+		String newTel = sc.nextLine();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "update mymember set  mem_tel = ? where mem_id = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newTel);
+			pstmt.setString(2, memId);
+			
+			int cnt = pstmt.executeUpdate();
+			if( cnt  > 0) {
+				System.out.println(memId + " 회원의 전화번호 수정 성공");
+			}else {
+				System.out.println(memId + " 회원의 전화번호 수정 실패");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+			if(conn != null) try { conn.close(); } catch (SQLException e) {}
+		}
+	}
+
+	private void onlyName() {
+		sc.nextLine();
+		System.out.println();
+		System.out.print("수정할 회원아이디 >>");
+		String memId = sc.nextLine();
+		int count = getMemberCount(memId);
+		// 없는 회원
+		if ( count == 0 ) {
+			System.out.println(memId + "은(는) 없는 회원ID 입니다.");
+			System.out.println("수정 작업을 종료합니다.");
+			return;
+		}
+		System.out.println("수정할 내용을 입력하세요.");
+		System.out.print("새로운 회원이름 >>");
+		String newName = sc.nextLine();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "update mymember set  mem_name = ? where mem_id = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newName);
+			pstmt.setString(2, memId);
+			
+			int cnt = pstmt.executeUpdate();
+			if( cnt  > 0) {
+				System.out.println(memId + " 회원의 회원이름 수정 성공");
+			}else {
+				System.out.println(memId + " 회원의 회원이름 수정 실패");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+			if(conn != null) try { conn.close(); } catch (SQLException e) {}
+		}
+	}
+
+	private void onlyPass() {
+		sc.nextLine();
+		System.out.println();
+		System.out.print("수정할 회원아이디 >>");
+		String memId = sc.nextLine();
+		int count = getMemberCount(memId);
+		// 없는 회원
+		if ( count == 0 ) {
+			System.out.println(memId + "은(는) 없는 회원ID 입니다.");
+			System.out.println("수정 작업을 종료합니다.");
+			return;
+		}
+		System.out.println("수정할 내용을 입력하세요.");
+		System.out.print("새로운 비밀번호 >>");
+		String newPass = sc.nextLine();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "update mymember set mem_pass = ? where mem_id = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newPass);
+			pstmt.setString(2, memId);
+			
+			int cnt = pstmt.executeUpdate();
+			if( cnt  > 0) {
+				System.out.println(memId + " 회원의 비밀번호 수정 성공");
+			}else {
+				System.out.println(memId + " 회원의 비밀번호 수정 실패");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+			if(conn != null) try { conn.close(); } catch (SQLException e) {}
+		}
+	}
+
 	//처리 조건)
 	//	1) 자료 추가에서 '회원ID'는 중복되지 않는다. (중복되면 다시 입력받는다.)
 	private void createData() {
@@ -273,6 +457,57 @@ public class JDBCTest06 {
 			if( conn != null ) try { conn.close(); } catch (SQLException e) {}
 		}
 	}
-	
+	private void menu() {
+		System.out.println("===================");
+	 	System.out.println("	-- 작업 선택 --");
+	 	System.out.println("	1. 자료 추가  ");
+		System.out.println("	2. 자료 삭제  ");
+		System.out.println("	3. 자료 수정  ");
+		System.out.println("	4. 전체 자료 출력");
+		System.out.println("	0. 작업 끝.   ");
+	 	System.out.println("===================");
+	}
+	// 선택메뉴를 출력하는 메소드
+		private int displayMenu2() {
+			System.out.println("===================");
+			System.out.println("	-- 작업 선택 --");
+			System.out.println("	1. 비밀번호 변경  ");
+			System.out.println("	2. 회원이름 변경  ");
+			System.out.println("	3. 전화번호  변경");
+			System.out.println("	4. 회원주소 변경");
+			System.out.println("	0. 뒤로가기   ");
+			System.out.println("===================");
+			System.out.print("원하는 작업 선택 >> ");
+			int num = sc.nextInt();
+			return num;
+		}
+		// 매개변수로 회원ID를 받아서 해당 회원ID의 개수를 반환하는 메소드
+		private int getMemberCount(String memId) {
+			int count = 0;
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try {
+				conn = DBUtil.getConnection();
+				String sql = "select count(*) cnt from mymember where mem_id = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, memId);
+				
+				rs = pstmt.executeQuery();
+				
+				while( rs.next() ) {
+					count = rs.getInt("cnt");
+				}
+			} catch (SQLException e) {
+				//위에서 초기화를 해줬기때문에 굳이 안해도되지만 작성
+				count = 0;
+				e.printStackTrace();
+			} finally {
+				if(rs != null) try { rs.close(); } catch (SQLException e) {}
+				if(pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
+				if(conn != null) try { conn.close(); } catch (SQLException e) {}
+			}
+			return count;
+		}
 	
 }

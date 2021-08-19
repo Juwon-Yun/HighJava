@@ -33,7 +33,7 @@ public class JDBCUtil {
 	ResultSet rs = null;
 	ResultSetMetaData metaData = null;
 	
-	// 		ex) List에 MemberVO 를 담는다
+	// 		ex) List에 VO 를 담는다
 	public List<Object> selectOne(String sql) {
 		List<Object> selectOneList = null;
 		
@@ -43,13 +43,15 @@ public class JDBCUtil {
 			ps = conn.prepareStatement(sql);
 			
 			rs = ps.executeQuery();
-
+			
+			// x
 			metaData = rs.getMetaData();
 			int cnt = metaData.getColumnCount();
 			
 			while(rs.next()) {
 				selectOneList = new ArrayList<>();
 				for(int i = 1; i <= cnt; i++) {
+					// 데이터도 가져와야함
 					selectOneList.add(metaData.getColumnName(i));
 				}
 			}
