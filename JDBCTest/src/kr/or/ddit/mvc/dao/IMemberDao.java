@@ -1,6 +1,7 @@
 package kr.or.ddit.mvc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.mvc.vo.MemberVO;
 
@@ -45,6 +46,15 @@ public interface IMemberDao {
 	 * @return 검색된 회원ID 개수
 	 */
 	public int getMemberCount(String memId);
+	
+	/**
+	 * 매개변수로 넘어온 Map정보를 이용하여 회원 정보 중 원하는 항목을 수정하는 메소드
+	 * 			key값 정보 => 회원ID(memId), 수정할컬럼명(field), 수정할데이터(data)
+	 * 
+	 * @param paramMap 회원ID, 수정할 컬럼, 수정할 데이터가 저장된 Map객체
+	 * @return 작업 성공 : 1, 실패 : 0
+	 */
+	public int updateMember2(Map<String, String> paramMap);
 }
 
 
