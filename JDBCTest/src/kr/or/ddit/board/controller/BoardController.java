@@ -67,12 +67,13 @@ public class BoardController {
 		System.out.println("-------------------------------------------------------------");
 		System.out.print("검색할 제목 입력: ");
 		String title = sc.nextLine();
-		if ( title.equals(" ") || title.equals(null) ) {
+		if ( title.equals(" ")  || title.equals("") ) {
 			displayBoard();
 			return;
 		}
 		boardVo.setBoard_title(title);
 		List<BoardVO> boardList = service.getSearchBoard(boardVo);
+		
 		System.out.println("-------------------------------------------------------------");
 		System.out.println(" No	        제 목            작성자 	조회수               ");
 		System.out.println("-------------------------------------------------------------");
@@ -84,9 +85,11 @@ public class BoardController {
 										boardVO.getBoard_title()+"   "+
 										boardVO.getBoard_writer()+"   "+
 										boardVO.getBoard_cnt()	);
+				
 			}
 		}
 		System.out.println("-------------------------------------------------------------");
+		
 	}
 	private void showBoard() {
 		sc.nextLine();
