@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD Sql Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="board">
+	
+	<insert id="insertBoard" parameterClass="boardVo">
+		insert into jdbc_board(board_no,board_title, board_writer, board_date, board_cnt, board_content)
+	  	    values(BOARD_SEQ.NEXTVAL, #board_title#, #board_writer#, SYSDATE, 0, #board_content#)
+	</insert>
+		
+	<delete id="deleteBoard" parameterClass="boardVo">
+		delete  from jdbc_board where board_no = #board_no#
+	</delete>
+			
+	<update id="updateBoard" parameterClass="boardVo">
+		update jdbc_board set 
+			board_title = #board_title#, 
+			board_date = SYSDATE, 
+			board_content= #board_content# 
+		where board_no = #board_no#
+	</update>
+	
+	<select id="getAllBoard" resultClass="boardVo">
+		select * from jdbc_board order by 1 desc
+	</select>
+	
+	<select id="getBoardNum" resultClass="boardVo">
+		select * from jdbc_board where board_no = #board_no#
+	</select>
+	
+	<select id="getSearchBoard" resultClass="boardVo">
+		select * from jdbc_board where board_title like concat(concat('%' , #board_title# ), '%') 
+	</select>
+	
+	<update id="updateCnt" parameterClass="boardVo">
+		update jdbc_board set 
+			board_cnt = nvl(board_cnt, 0) +1 
+		where board_no = #board_no#
+	</update>
+</sqlMap>

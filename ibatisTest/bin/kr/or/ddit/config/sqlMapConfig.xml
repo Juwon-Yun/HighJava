@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- doctype밑으로 태그 순서를 정확하게 써야한다 -->
+<!DOCTYPE sqlMapConfig
+		PUBLIC "-//ibatis.apache.org.//DTD SQL Map Config 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<!-- 
+		DB와 연결하는 정보를 properties파일에 설정해 놓고
+		이 properties파일의 내용을 읽어올 수 있도록 설정한다.
+	 -->
+	 <!-- iBatis 안에서 절대경로로 작성해줘야 내부적으로 사용됨 -->
+	 <properties resource = "kr/or/ddit/config/dbinfo.properties"/>
+	 
+	 <!-- 
+	 	각각의 sqlMap파일(SQL문이 저장된 xml문서)의 namespace속성값과
+	 	sql문을 작성할 때 사용하는 태그의 id속성값을 연결해서 처리할 SQL문을 
+	 	선택할 수 있도록 셋팅한다.
+	  -->
+	  <!-- VO담는 XML에 별칭을 부여하겠다 -->
+	<settings useStatementNamespaces="true"/>
+	
+	<!-- 
+		SQL문에 사용할 VO객체는 패키지 이름을 포함한 전체 이름을 사용해야 한다.
+		그렇게 되면 문장이 너무 길어질 수 있는데 이 긴 이름을 대신해서 사용할
+		alias를 설정할 수 있다.
+		
+		형식) <typeAlias alias="alias명" type="class의 풀네임"/>
+	 --> 
+	 <typeAlias alias="LprodVo" type="kr.or.ddit.basic.LprodVO"/>
+	 <typeAlias alias="memberVo" type="kr.or.ddit.mvc.vo.MemberVO"/>
+	 <typeAlias alias="boardVo" type="kr.or.ddit.board.vo.BoardVO"/>
+	 
+	 
+	 <!-- DB하고 연결을 처리하는 부분(대소문자 유의해야함), value에서는 properties파일의 key값을 써줘야함 ${key값} -->
+	 <transactionManager type="JDBC">
+	 	<dataSource type="SIMPLE">
+	 		<property name="JDBC.Driver" value="${driver}"/>
+	 		<property name="JDBC.ConnectionURL" value="${url}"/>
+	 		<property name="JDBC.Username" value="${user}"/>
+	 		<property name="JDBC.Password" value="${pass}"/>
+	 	</dataSource>
+	 </transactionManager>
+	 
+	 <!-- 실행할 SQL문 등록하기 -->
+	 <!-- 
+	 	실행할 SQL문은 xml문서로 따로 만든 후 
+	 	그 xml문서를 아래와 같이 등록하면 된다.
+	  
+	  	형식) <sqlMap resource="경로명/파일명.xml"/>
+	  -->
+	  <sqlMap resource="kr/or/ddit/mapping/lprodTest.xml"/>
+	  <sqlMap resource="kr/or/ddit/mapping/jdbc.xml"/>
+	  <sqlMap resource="kr/or/ddit/mapping/memberTest.xml"/>
+	  <sqlMap resource="kr/or/ddit/mapping/boardTest.xml"/>
+	  
+	  
+</sqlMapConfig>
