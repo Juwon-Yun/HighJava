@@ -1,0 +1,40 @@
+Class A{
+	B b(A와 Assosiation 관계);
+	C c(A와 Assosiation 관계);
+	D d(A와 Assosiation 관계);
+	
+	A(C c){
+		b = new B() (main메소드의 A객체가 삭제 되었을때 사라짐 Composition);
+		this.c = c;
+	}
+	setD(D d){
+	this.d=d;
+	}
+	
+	method(E e){
+	     ...
+	}
+	method2(){ (method2가 사라졌을때 method도 사라짐 association)
+		e = new E();
+	}
+}
+Class B{
+}
+Class C{
+}
+Class D{
+}
+Class E{
+}
+
+class 실행용{
+	main(){
+	C c = new C(); (main메소드의 A객체가 삭제 되었을때 안사라짐 Aggregation)
+	A a = new A(a); (필요한 데이터를 다 써서 메모리에서 삭제되었다했을경우를 가정)
+	
+	(setD의 사용 여부를 가정)
+	D d = new D();
+	a.setD(d); (이때 composition도 아니고 aggregation도 아님)
+	
+	}
+}
