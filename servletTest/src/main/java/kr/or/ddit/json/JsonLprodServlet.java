@@ -2,11 +2,6 @@ package kr.or.ddit.json;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -22,40 +17,43 @@ public class JsonLprodServlet  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<LprodVO>list = null;
-		try {
-		list = new ArrayList<>();
-		conn = DBUtil3.getConnection();
-		String sql  = "select * from LPROD";
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-			while ( rs.next() ) {
-				LprodVO lvo = new LprodVO();
-				lvo.setLprod_id( Integer.parseInt(rs.getString("lprod_id")) );
-				lvo.setLprod_gu( rs.getString("lprod_gu") );
-				lvo.setLprod_nm( rs.getString("lprod_nm") );
-				list.add(lvo);
-			}
-		} catch (SQLException e) {
-			e.getMessage();
-		} finally {
-			if( rs != null ) try { rs.close(); } catch ( SQLException e) {}
-			if( pstmt != null ) try { pstmt.close(); } catch ( SQLException e) {}
-			if( conn != null ) try { conn.close(); } catch ( SQLException e) {}
-		}
+//		Connection conn = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		List<LprodVO>list = null;
+//		try {
+//		list = new ArrayList<>();
+//		conn = DBUtil3.getConnection();
+//		String sql  = "select * from LPROD";
+//		pstmt = conn.prepareStatement(sql);
+//		rs = pstmt.executeQuery();
+//			while ( rs.next() ) {
+//				LprodVO lvo = new LprodVO();
+//				lvo.setLprod_id( Integer.parseInt(rs.getString("lprod_id")) );
+//				lvo.setLprod_gu( rs.getString("lprod_gu") );
+//				lvo.setLprod_nm( rs.getString("lprod_nm") );
+//				list.add(lvo);
+//			}
+//		} catch (SQLException e) {
+//			e.getMessage();
+//		} finally {
+//			if( rs != null ) try { rs.close(); } catch ( SQLException e) {}
+//			if( pstmt != null ) try { pstmt.close(); } catch ( SQLException e) {}
+//			if( conn != null ) try { conn.close(); } catch ( SQLException e) {}
+//		}
 		
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		response.setContentType("apllication/json; charset=utf-8");
-		PrintWriter out = response.getWriter();
-		
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(list);
+		response.setContentType("application/json; charset=utf-8");
+		//선생님
+		  
+		  Gson gson = new Gson();
+		  LprodDao2 dao2 = new LprodDao2();
+		  List<LprodVO> lprodList = dao2.getLprodList();
+   		  PrintWriter out = response.getWriter();
+   		  String jsonData = gson.toJson(lprodList);
+   		  out.print(jsonData);
 		System.out.println( jsonData );
-		out.println(jsonData);
 		response.flushBuffer();
 		
 	}
